@@ -1033,8 +1033,9 @@
       padding-inline: 10px;
     }
 
-    :scope[data-layout="stack"] .sketch-ic-ref::after {
-      content: " ·";
+    /* Phones show just the setting's name and value, without the chip references (U2, U3, U4). */
+    :scope[data-layout="stack"] .sketch-ic-ref {
+      display: none;
     }
 
     :scope[data-layout="stack"] .sketch-ic-name {
@@ -1509,6 +1510,11 @@
       :scope[data-layout="overlay"] .sketch-ic-button.media-button {
         font-size: 11px;
         gap: 6px;
+      }
+
+      /* No chip references (U2, U3, U4) on phones. */
+      :scope[data-layout="overlay"] .sketch-ic-ref {
+        display: none;
       }
 
       :scope[data-layout="overlay"] .sketch-jack .sketch-label {
