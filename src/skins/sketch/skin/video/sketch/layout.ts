@@ -90,3 +90,27 @@ export function useFrameTone(root: HTMLElement | null, active: boolean) {
     };
   }, [root, active]);
 }
+
+/**
+ * On a phone, fullscreen turns the screen to suit the video: landscape for wide video, portrait for tall. Android
+ * browsers honour the Screen Orientation API once the player is fullscreen. iPhones play fullscreen video in Safari's
+ * own player, which follows the phone's rotation by itself, and ignore the API. Unlocked again on leaving fullscreen.
+ */
+export function useFullscreenOrientationLock(root: HTMLElement | null, active: boolean) {
+  useEffect(() => {
+    const orientation = screen.orientation as ScreenOrientation & { lock?: (type: string) => Promise<void> };
+    if (!root || !active || !orientation?.lock) return;
+    const video = root.querySelector('video');
+    const tall = !!video?.videoWidth && !!video.videoHeight && video.videoHeight > video.videoWidth;
+    orientation.lock(tall ? 'portrait' : 'landscape').catch(() => {
+      // Not supported or refused (desktop browsers, iOS): nothing to do.
+    });
+    return () => {
+      try {
+        orientation.unlock();
+      } catch {
+        // Already unlocked.
+      }
+    };
+  }, [root, active]);
+}

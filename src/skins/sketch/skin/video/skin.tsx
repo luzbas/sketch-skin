@@ -21,7 +21,7 @@ import { SeekIndicator } from './shared/seek-indicator';
 import { StatusAnnouncer } from './shared/status-announcer';
 import { Poster } from './shared/video-feedback';
 import { SketchHairline } from './sketch/hairline';
-import { useFrameTone, useSketchLayout } from './sketch/layout';
+import { useFrameTone, useFullscreenOrientationLock, useSketchLayout } from './sketch/layout';
 
 export interface VideoSkinProps extends Omit<ContainerPrimitive.Props, 'children'> {
   children?: ReactNode;
@@ -33,6 +33,7 @@ export function VideoSkin({ children, className, renderPoster, renderThumbnail, 
   const [root, setRoot] = useState<HTMLDivElement | null>(null);
   const { layout, stackHeight } = useSketchLayout(root);
   useFrameTone(root, layout === 'overlay');
+  useFullscreenOrientationLock(root, layout === 'overlay');
 
   return (
     <ContainerPrimitive

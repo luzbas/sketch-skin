@@ -38,10 +38,13 @@ export function useBoil(ref: RefObject<Element | null>, selector?: string) {
         setFrame(0);
       }
     };
-    const enter = () => { hovered = true; update(); };
+    // A tap is not a hover, and the focus a tap leaves behind is not keyboard focus: on touch screens both would
+    // otherwise keep the control boiling (redrawing eight times a second) until something else is tapped.
+    const enter = (event: Event) => { if ((event as PointerEvent).pointerType === 'touch') return; hovered = true; update(); };
     const leave = () => { hovered = false; update(); };
-    const focusIn = () => { focused = (el as HTMLElement).matches(':focus-within'); update(); };
-    const focusOut = () => { requestAnimationFrame(() => { focused = (el as HTMLElement).matches(':focus-within'); update(); }); };
+    const keyboardFocus = () => (el as HTMLElement).matches(':focus-visible, :has(:focus-visible)');
+    const focusIn = () => { focused = keyboardFocus(); update(); };
+    const focusOut = () => { requestAnimationFrame(() => { focused = keyboardFocus(); update(); }); };
 
     el.addEventListener('pointerenter', enter);
     el.addEventListener('pointerleave', leave);

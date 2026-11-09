@@ -65,6 +65,13 @@
       clip-path: inset(-4px calc(100% - var(--media-slider-fill, 0%)) -4px -4px);
     }
 
+    /* The timeline's pencil layers are revealed by clips that move on every frame of playback. On their own compositor
+       layers the browser only moves the clip, instead of repainting the dense hatching each frame (slow on phones). */
+    .media-sketch-pins > svg,
+    .media-sketch-track > svg {
+      will-change: transform;
+    }
+
     .media-time-slider[data-dragging] .media-sketch-pins-played {
       clip-path: inset(-4px calc(100% - var(--media-slider-pointer, 0%)) -4px -4px);
     }
