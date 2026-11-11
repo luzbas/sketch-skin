@@ -7,12 +7,7 @@ export default function SketchDuoPage() {
   return (
     <main className="duo-page">
       <header className="duo-page__header">
-        <h1>Sketch · Duo</h1>
-        <p>
-          The pencil schematic on the iPhone Duo. Prop it up and the parts lie on the bottom half under the picture; open
-          it flat and they're drawn over the video; close it and they line up on a rail beside it. The video keeps playing
-          through every fold and turn.
-        </p>
+        <h1 className="visually-hidden">Sketch · Duo</h1>
         <p className="duo-page__links">
           <a href="../">Player</a>
           <a href="https://github.com/luzbas/sketch-skin">GitHub</a>
